@@ -1,5 +1,5 @@
 package com.github.imbelo.calcolatricegrafica.model.interfaces;
 
-public interface Tree<T extends Node<T>>{
-    T getRoot();
+public interface CartesianPoint extends Point<Double>{
+  
 }
