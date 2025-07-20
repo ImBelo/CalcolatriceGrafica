@@ -1,6 +1,5 @@
 package com.github.imbelo.calcolatricegrafica.model.interfaces;
 
-public interface Tree<T extends Node>{
+public interface Tree<T>{
     T getRoot();
-    void setRoot(T t);
 }
