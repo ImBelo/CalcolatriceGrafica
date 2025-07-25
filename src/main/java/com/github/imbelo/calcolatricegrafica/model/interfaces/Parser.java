@@ -1,7 +1,7 @@
 package com.github.imbelo.calcolatricegrafica.model.interfaces;
 
-import java.util.Optional;
+import com.github.imbelo.calcolatricegrafica.model.parser.ParserResult;
 
 public interface Parser<T extends Node<T>> {
-	public Optional<Tree<T>> parse(Expression expr);
+	ParserResult<T> parse(Expression expr);
 }

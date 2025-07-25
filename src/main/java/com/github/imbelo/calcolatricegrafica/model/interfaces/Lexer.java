@@ -1,8 +1,8 @@
 package com.github.imbelo.calcolatricegrafica.model.interfaces;
 
-import java.util.List;
-import java.util.Optional;
+
+import com.github.imbelo.calcolatricegrafica.model.parser.TokenizationResult;
 
 public interface Lexer{
-	public Optional<List<Token>> tokenize(Expression expr); 
+	TokenizationResult tokenize(Expression expr); 
 }
