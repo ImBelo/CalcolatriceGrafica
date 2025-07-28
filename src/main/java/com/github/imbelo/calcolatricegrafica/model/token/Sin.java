@@ -6,17 +6,15 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 public class Sin extends UnaryFunction {
 
 	public Sin(Token child) {
-		super(child);
-		super.setType(FunctionType.SINE);
+    super(child,TokenType.SIN());
 	}
 
 	public Sin() {
-		super.setType(FunctionType.SINE);
+    super(TokenType.SIN());
 	}
 
 	@Override
-	public double getValue() throws NotWellFormedFormulaException{
-		super.isWellFormed("Sine not well formed");
+	public double getValue() {
 		return Math.sin(super.getChild().getValue());
 	}
 

@@ -11,16 +11,13 @@ import java.util.NoSuchElementException;
 public class BinaryFunction extends AbstractToken{
 	private Token right;
 	private Token left;
-	
-	public BinaryFunction(Token left,Token right) {
+	public BinaryFunction(Token left,Token right,Type<BinaryFunction> type) {
+    super(type);
 		this.setLeft(left);
 		this.setRight(right);
 	}
-	public BinaryFunction() {
-	}
-	public void setType(Type type) {
-		super.setType(type);
-		super.setData(type.getData());
+	public BinaryFunction(Type<BinaryFunction> type) {
+    super(type);
 	}
 	public double getValue() {
 		return 0;
@@ -38,10 +35,6 @@ public class BinaryFunction extends AbstractToken{
 	}
 	public void setLeft(Token left) {
 		this.left = left;
-	}
-	protected void isWellFormed(String message) {
-		if(getLeft() == null || getRight() == null)
-			throw new NotWellFormedFormulaException(message);
 	}
 	@Override
 	public boolean equals(Object obj) {

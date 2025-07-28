@@ -1,13 +1,8 @@
 package com.github.imbelo.calcolatricegrafica.model.token;
 
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Node;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
-
-import java.util.List;
-
 public class ClosedParentheses extends AbstractParentheses{
 	public ClosedParentheses() {
-		this.setType(TokenType.CLOSED_PARENTHESES);
+		super(TokenType.CLOSED_PARENTHESES());
 	}
 	
 	@Override 

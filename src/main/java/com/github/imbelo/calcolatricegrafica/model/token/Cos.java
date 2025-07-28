@@ -5,17 +5,15 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 public class Cos extends UnaryFunction {
 
 	public Cos(Token child) {
-		super(child);
-		super.setType(FunctionType.COSINE);
+		super(child,TokenType.COS());
 	}
 
 	public Cos() {
-		super.setType(FunctionType.COSINE);
+		super(TokenType.COS());
 	}
 
 	@Override 
 	public double getValue() {
-		super.isWellFormed("cosine not well formed");
 		double child = realValue(super.getChild());
 		return Math.cos(child);
 	}

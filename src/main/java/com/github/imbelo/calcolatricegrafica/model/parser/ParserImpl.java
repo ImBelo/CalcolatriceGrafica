@@ -1,16 +1,17 @@
 package com.github.imbelo.calcolatricegrafica.model.parser;
 
 import com.github.imbelo.calcolatricegrafica.model.interfaces.*;
+import com.github.imbelo.calcolatricegrafica.model.token.AlphabetToken;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Optional;
 
 public class ParserImpl implements Parser<Token>{
   private Lexer lexer;
 	private List<Token> tokens;
-	private OrderedAlphabet<Type> alphabet; 
-	private ErrorFinder<CompilerError> errorFinderSemantic;
+	private AlphabetToken alphabet; 
+	private ErrorFinder<SemanticError> errorFinderSemantic;
   private NodeFinder<Token> nodeFinder;
   private TreeFactory<Token> treeFactory;
   private ParserImpl(Builder builder){
@@ -23,49 +24,42 @@ public class ParserImpl implements Parser<Token>{
   public ParserResult<Token> parse(Expression expr){
     ParserResult<Token> result = new ParserResult<>();
     var previousresult = lexer.tokenize(expr);
-    if(previousresult.isValid())  
+    if(!previousresult.isValid()){  
       previousresult.getErrors().get().forEach(result::addError);
       return result;
+    }
     // Search for semantic Error
     errorFinderSemantic.check(expr).ifPresent(result::addError);
     
-		Token root = treeFactory.createTree(nodeFinder,tokens);
+		var root = treeFactory.createTree(tokens);
       
-
-    result.setResult(new FunctionImpl(root));
+    if(root.isPresent())
+      result.setResult(new FunctionImpl(root.get(),AlphabetToken.getVariables()));
 		return result; 
   }
 
  public static class Builder {
     // Required fields (final)
-    private final Lexer lexer;
-    private final ErrorFinder<CompilerError> errorFinderSemantic;
-    private final TokenExtractor tokenExtractor;
-    private final TreeFactory<Token> treeFactory;
-	  private final OrderedAlphabet<Type> alphabet;
+    private Lexer lexer;
+    private ErrorFinder<SemanticError> errorFinderSemantic;
+    private TreeFactory<Token> treeFactory;
+	  private AlphabetToken alphabet;
 
-    // Optional fields (with defaults)
-    private List<Token> tokens = new ArrayList<>();
-    private List<Token> variables = new ArrayList<>();
-
-    public Builder(Lexer lexer, ErrorFinder<SemanticError> errorFinderSemantic) {
+    public Builder(Lexer lexer, ErrorFinder<SemanticError> errorFinderSemantic,AlphabetToken alphabet,TreeFactory<Token> treeFactory) {
+      this.treeFactory = Objects.requireNonNull(treeFactory,"TreeFactory must not be null");
+      this.alphabet = Objects.requireNonNull(alphabet,"Alphabet must not be null");
       this.lexer = Objects.requireNonNull(lexer, "Lexer must not be null");
       this.errorFinderSemantic = Objects.requireNonNull(errorFinderSemantic, "ErrorFinderSemantic must not be null");
     }
 
 
-    public Builder errorFinderSemantic(ErrorFinderSemantic errorFinderSemantic) {
+    public Builder errorFinderSemantic(ErrorFinder<SemanticError> errorFinderSemantic) {
       this.errorFinderSemantic = errorFinderSemantic;// Defensive copy
       return this;
 
     }
 
-    public Builder TokenTreeFactory(NodeExtractor nodeExtractor) {
-      this.nodeExtractor = nodeExtractor;
-      return this;
-    }
-
-    public Builder alphabet(Alphabet<Type> alphabet) {
+    public Builder alphabet(AlphabetToken alphabet) {
       this.alphabet = alphabet;// Defensive copy
       return this;
     }

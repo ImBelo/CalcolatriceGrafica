@@ -4,21 +4,17 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 
 public abstract class AbstractToken implements Token{
-	private Type type;
-	private String data;
-	public Type getType() { 
-		return type;
-	}
-	public void setType(Type type) {
-		this.type = type;
-		this.data = type.getData();
-	}
-	public String getData() { 
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
+  private String data;
+  private Type<? extends Token> type;
+  public AbstractToken(Type<? extends Token> type){
+    this.type = type;
+  }
+  public Type<? extends Token> getType(){
+    return this.type;
+  }
+  public String getData(){
+    return this.data;
+  }
 	public abstract double getValue();
 	public double realValue(Token t) {
 		return t != null ? t.getValue() :Double.NaN;

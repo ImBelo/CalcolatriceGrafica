@@ -1,24 +1,22 @@
 package com.github.imbelo.calcolatricegrafica.model.token;
 
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Variable;
 
-public class VariableX extends AbstractVariable{
+public class VariableX extends Variable{
 	 private static Variable me;
 	 
+	 public VariableX() {
+	   super(TokenType.X());
+	 }
 
-	    public VariableX() {
-	    	super(VariableType.X);
-	    }
+	 public static Variable getInstance() {
+	   if (me == null) {
+	     me = new VariableX();
+	   }
 
-	    public static Variable getInstance() {
-	        if (me == null) {
-	            me = new VariableX();
-	        }
-
-	        return me;
-	    }
+	   return me;
+	   }
 	 
-	    public void setNum(double num) {
-	    	super.setNum(num);
-	    }
+	 public void setNum(double num) {
+	   super.setNum(num);
+	 }
 }

@@ -2,21 +2,19 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Node;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
+import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class UnaryFunction extends AbstractToken {
 	private Token child;
-	public UnaryFunction(Token child) {
-		this.setChild(child);
-
+	public UnaryFunction(Token child,Type<UnaryFunction> type) {
+    super(type);
+    this.child = child;
 	}
-	public UnaryFunction() {
-		super.setData("");
-	}
-	public UnaryFunction(String data) {
-		super.setData(data);
+	public UnaryFunction(Type<UnaryFunction> type) {
+    super(type);
 	}
 
 	public double getValue() {
@@ -30,10 +28,7 @@ public class UnaryFunction extends AbstractToken {
 	public void setChild(Token child) {
 		this.child = child;
 	}
-	public void isWellFormed(String message) {
-		if(getChild() == null )
-			throw new NotWellFormedFormulaException(message);
-	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)

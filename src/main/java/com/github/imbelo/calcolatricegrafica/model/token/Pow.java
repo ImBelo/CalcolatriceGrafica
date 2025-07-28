@@ -5,18 +5,15 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 public class Pow extends BinaryFunction{
 
 	public Pow(Token left, Token right) {
-		super(left, right);
-		super.setType(OperationType.RAISED_TO);
+    super(left,right,TokenType.POW());
 	}
 
 	public Pow() {
-		super(null,null);
-		super.setType(OperationType.RAISED_TO);
+    super(TokenType.POW());
 	}
 
 	@Override
-	public double getValue() throws NotWellFormedFormulaException{
-		super.isWellFormed("Power not well formed");
+	public double getValue() {
 		double left = super.getLeft().getValue();
 		double right = super.getRight().getValue();
 		return left!=0 && right!=0?Math.pow(left, right):Double.NaN;

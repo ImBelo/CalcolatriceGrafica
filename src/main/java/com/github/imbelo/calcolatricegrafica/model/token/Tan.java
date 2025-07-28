@@ -5,12 +5,11 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 public class Tan extends UnaryFunction {
 
 	public Tan(Token child) {
-		super(child);
-		super.setType(FunctionType.TANGENT);
+		super(child,TokenType.TAN());
 	}
 
 	public Tan() {
-		super.setType(FunctionType.TANGENT);
+		super(TokenType.TAN());
 	}
 
 	@Override

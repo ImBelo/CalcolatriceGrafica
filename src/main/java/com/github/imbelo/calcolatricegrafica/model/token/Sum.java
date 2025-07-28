@@ -5,18 +5,15 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 
 public class Sum extends BinaryFunction{
 	public Sum(Token left, Token right) {
-		super(left, right);
-		super.setType(OperationType.PLUS);
+    super(left,right,TokenType.SUM());
 	}
 
 	public Sum() {
-		super(null,null);
-		super.setType(OperationType.PLUS);
+    super(TokenType.SUM());
 	}
 
 	@Override
 	public double getValue() {
-		super.isWellFormed("sum not well formed");
 		double left = realValue(super.getLeft());
 		double right = realValue(super.getRight());
 		return left + right;

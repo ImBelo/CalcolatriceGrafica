@@ -1,8 +1,8 @@
 package com.github.imbelo.calcolatricegrafica.model.token;
 
 public class OpenParentheses extends AbstractParentheses{
-	public OpenParentheses() {
-		this.setType(TokenType.OPEN_PARENTHESES);
+	public OpenParentheses(){
+		super(TokenType.OPEN_PARENTHESES());
 	}
 	@Override
 	public boolean equals(Object obj) {

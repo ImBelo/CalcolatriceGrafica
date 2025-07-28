@@ -1,5 +1,7 @@
 package com.github.imbelo.calcolatricegrafica.model.interfaces;
 
 public interface Token extends Node<Token>, Valuable{
-  Type getType();
+  String getData();
+  Type<? extends Token> getType();
 }
+

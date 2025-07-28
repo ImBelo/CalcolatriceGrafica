@@ -5,17 +5,15 @@ import java.util.List;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Function;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Variable;
+import com.github.imbelo.calcolatricegrafica.model.token.Variable;
+import java.util.stream.Collectors;
 // class that describes the abstract syntax tree of a mathematical function
 public class FunctionImpl implements Function {
 	private Token root;
 	private List<Variable> variables = new ArrayList<>();
-	public FunctionImpl(Token root, List<Type> variables) {
+	public FunctionImpl(Token root, List<Type<Variable>> variables) {
 		this.root = root;
-		for(Type variable: variables) {
-			var supplier = variable.getSupplier();
-			this.variables.add((Variable)supplier.get());
-		}
+    this.variables = variables.stream().map(t->(Variable)t.create()).collect(Collectors.toList());
 	}
 	// evaluates the function(abstract syntax tree) 
 	// in the point that has up to variables.size() dimensions
