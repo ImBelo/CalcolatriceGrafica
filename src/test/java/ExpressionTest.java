@@ -20,6 +20,7 @@ public class ExpressionTest{
     public void test2() {
       Expression test = ExpressionImpl.of("");
       assertEquals(Arity.Unary, test.getArity());
+      assertTrue(test.isEmpty());
     }
     @Test
     public void test3() {

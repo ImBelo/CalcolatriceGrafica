@@ -55,7 +55,7 @@ public class TokenType<T extends Token> implements Type<T>{
     return new TokenType<>("y",VariableY::getInstance,12);
   }
   public static Type<MyNumber> NUMBER(){
-    return new TokenType<>("",()->new MyNumber(0.0),13);
+    return new TokenType<>("" ,()->new MyNumber(0.0),13);
   }
   public static Type<AbstractParentheses> OPEN_PARENTHESES(){
     return new TokenType<>("(",OpenParentheses::new,14);
@@ -64,11 +64,11 @@ public class TokenType<T extends Token> implements Type<T>{
     return new TokenType<>(")",ClosedParentheses::new,15);
   }
 	public int getPriority() {
-		return priority;
+		return this.priority;
 	}
 	@Override
 	public String getData() {
-		return data;
+		return this.data;
 	}
 
 }

@@ -7,17 +7,25 @@ import java.util.function.Predicate;
 import java.util.function.Function;   
 
 public class ExpressionImpl implements Expression{
-  private final String expression;
+  private String expression;
 
   private ExpressionImpl(String expression) {
     this.expression = expression;
   }
 
-  public static ExpressionImpl of(String expression) {
+  public static Expression of(String expression) {
     return new ExpressionImpl(expression != null ? expression.trim() : "");
   }
   public static Expression empty() {
     return new ExpressionImpl("");
+  }
+  public void set(String expression){
+    this.expression = expression;
+    
+  }
+  public void set(Expression expression){
+    this.expression = expression.get();
+    
   }
   public Boolean isEmpty(){
     return this.expression.isEmpty();
@@ -50,5 +58,16 @@ public class ExpressionImpl implements Expression{
   @Override
   public String toString() {
     return expression;
+  }
+  @Override
+  public boolean equals(Object obj){
+    if(!(obj instanceof Expression))
+      return false;
+    if(!((Expression)obj).get().equals(this.get()))
+      return false;
+    return true;
+  
+
+
   }
 }
