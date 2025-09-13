@@ -14,7 +14,7 @@ public class ExpressionImpl implements Expression{
   }
 
   public static Expression of(String expression) {
-    return new ExpressionImpl(expression != null ? expression.trim() : "");
+    return new ExpressionImpl(expression.replace(" ", "").toLowerCase());
   }
   public static Expression empty() {
     return new ExpressionImpl("");

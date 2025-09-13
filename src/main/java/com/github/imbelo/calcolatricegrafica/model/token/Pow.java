@@ -5,12 +5,17 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 public class Pow extends BinaryFunction{
 
 	public Pow(Token left, Token right) {
-    super(left,right,TokenType.POW());
+    super(left,right,"^");
 	}
 
 	public Pow() {
-    super(TokenType.POW());
+    super("^");
 	}
+
+  @Override
+  public int getPriority() {
+    return 5;
+  }
 
 	@Override
 	public double getValue() {
@@ -18,6 +23,13 @@ public class Pow extends BinaryFunction{
 		double right = super.getRight().getValue();
 		return left!=0 && right!=0?Math.pow(left, right):Double.NaN;
 	}
+  @Override
+  public String toString(){
+    return "^";
+  }
+
+
+
 
 	
 

@@ -4,59 +4,76 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.*;
 import com.github.imbelo.calcolatricegrafica.model.token.AlphabetToken;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Optional;
 
-public class ParserImpl implements Parser<Token>{
+public class ParserImpl implements Parser<Function>{
   private Lexer lexer;
 	private List<Token> tokens;
 	private AlphabetToken alphabet; 
-	private ErrorFinder<SemanticError> errorFinderSemantic;
-  private NodeFinder<Token> nodeFinder;
+	private ErrorFinder<SemanticError,Token> errorFinderSemantic;
   private TreeFactory<Token> treeFactory;
+  private String error;
   private ParserImpl(Builder builder){
     this.lexer = builder.lexer;
     this.alphabet = builder.alphabet;
     this.errorFinderSemantic = builder.errorFinderSemantic;
     this.treeFactory = builder.treeFactory;
+    this.alphabet = builder.alphabet;
+    errorFinderSemantic.setAlphabet(alphabet);
   }
 
-  public ParserResult<Token> parse(Expression expr){
-    ParserResult<Token> result = new ParserResult<>();
-    var previousresult = lexer.tokenize(expr);
-    if(!previousresult.isValid()){  
-      previousresult.getErrors().get().forEach(result::addError);
-      return result;
+  public Optional<Function> parse(Expression expr){
+    if (expr == null){
+      return Optional.empty();
     }
+    Optional<List<Token>> previousresult = lexer.tokenize(expr);
+    if(previousresult.isEmpty()){
+      error = lexer.getError();
+      return Optional.empty();
+    }
+    this.tokens = previousresult.get();
     // Search for semantic Error
-    errorFinderSemantic.check(expr).ifPresent(result::addError);
-    
+    var errors = errorFinderSemantic.check(tokens);
+    if(errors.isPresent()){
+      error = errors.get().getMessage();
+      return Optional.empty();
+    }
 		var root = treeFactory.createTree(tokens);
-      
-    if(root.isPresent())
-      result.setResult(new FunctionImpl(root.get(),AlphabetToken.getVariables()));
-		return result; 
+    if(root.isPresent()){
+      return Optional.of(new FunctionImpl(root.get(),alphabet.getVariables()));
+    }
+     return Optional.empty();
+  }
+  public static Builder builder(){
+    return new Builder();
   }
 
- public static class Builder {
-    // Required fields (final)
+  public static class Builder {
     private Lexer lexer;
-    private ErrorFinder<SemanticError> errorFinderSemantic;
+    private ErrorFinder<SemanticError,Token> errorFinderSemantic;
     private TreeFactory<Token> treeFactory;
 	  private AlphabetToken alphabet;
+    private TokenFinder tokenFinder;
 
-    public Builder(Lexer lexer, ErrorFinder<SemanticError> errorFinderSemantic,AlphabetToken alphabet,TreeFactory<Token> treeFactory) {
-      this.treeFactory = Objects.requireNonNull(treeFactory,"TreeFactory must not be null");
-      this.alphabet = Objects.requireNonNull(alphabet,"Alphabet must not be null");
-      this.lexer = Objects.requireNonNull(lexer, "Lexer must not be null");
-      this.errorFinderSemantic = Objects.requireNonNull(errorFinderSemantic, "ErrorFinderSemantic must not be null");
+    public Builder(){
     }
 
-
-    public Builder errorFinderSemantic(ErrorFinder<SemanticError> errorFinderSemantic) {
+    public Builder treeFactory(TreeFactory<Token> treeFactory){
+      this.treeFactory = treeFactory;
+      return this;
+    }
+    public Builder errorFinderSemantic(ErrorFinder<SemanticError,Token> errorFinderSemantic) {
       this.errorFinderSemantic = errorFinderSemantic;// Defensive copy
       return this;
 
+    }
+    public Builder lexer(Lexer lexer){
+      this.lexer = lexer;
+      return this;
+    }
+    public Builder tokenFinder(TokenFinder tokenFinder){
+      this.tokenFinder = tokenFinder;
+      return this;
     }
 
     public Builder alphabet(AlphabetToken alphabet) {
@@ -69,5 +86,10 @@ public class ParserImpl implements Parser<Token>{
       return new ParserImpl(this);
     }  
   }
-
+  public boolean hasError(){
+    return this.error != null;
+  }
+  public String getError(){
+    return this.error;
+  }
 }

@@ -2,8 +2,13 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 public class OpenParentheses extends AbstractParentheses{
 	public OpenParentheses(){
-		super(TokenType.OPEN_PARENTHESES());
+    super("(");
 	}
+
+  @Override
+  public int getPriority() {
+    return 13;
+  }
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)

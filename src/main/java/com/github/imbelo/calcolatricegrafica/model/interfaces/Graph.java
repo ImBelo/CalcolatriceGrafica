@@ -13,4 +13,5 @@ public interface Graph {
 	void setExpression(Expression expr);
 	void updateGraph(String interval, Camera camera);
 	void updateGraph(Camera camera);
+  String getError();
 }

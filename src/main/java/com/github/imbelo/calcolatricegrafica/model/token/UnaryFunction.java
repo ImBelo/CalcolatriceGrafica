@@ -2,21 +2,23 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Node;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class UnaryFunction extends AbstractToken {
 	private Token child;
-	public UnaryFunction(Token child,Type<UnaryFunction> type) {
-    super(type);
+	public UnaryFunction(Token child,String data) {
+    super(data);
     this.child = child;
 	}
-	public UnaryFunction(Type<UnaryFunction> type) {
-    super(type);
+	public UnaryFunction(String data) {
+    super(data);
 	}
-
+  @Override
+  public int getPriority() {
+    return 6;
+  }
 	public double getValue() {
 		return 0;
 	}

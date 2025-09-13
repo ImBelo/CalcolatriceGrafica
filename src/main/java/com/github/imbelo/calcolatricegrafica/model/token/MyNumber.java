@@ -2,21 +2,21 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Node;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 
 import java.util.List;
 
 public class MyNumber extends AbstractToken {
 	private double num;
-	public MyNumber(double num){
-    super(TokenType.NUMBER());
+	public MyNumber(double num,String data){
+    super(data);
 		this.setNum(num);
 	}
-	public MyNumber(){
-    super(TokenType.NUMBER());
-	}
-  public MyNumber(Type<Variable> type){
-    super(type);
+  public MyNumber(String data){
+    super(data);
+  }
+  public MyNumber(double data){
+    super("");
+    setNum(data);
   }
 	public void setNum(double num) {
 		this.num = num; 
@@ -25,15 +25,16 @@ public class MyNumber extends AbstractToken {
 	public double getValue() {
 		return this.num;
 	}
+  @Override
+  public int getPriority() {
+    return 12;
+  }
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this)
-            return true;
-		if (!(obj instanceof MyNumber otherNumber))
-            return false;
-        return this.num == otherNumber.getValue();
-    }
+    return true;
+  }
+  
 
 	@Override
 	public List<Node<Token>> getChildrens() {

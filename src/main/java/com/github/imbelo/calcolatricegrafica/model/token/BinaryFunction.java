@@ -3,7 +3,6 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Node;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,14 +10,18 @@ import java.util.NoSuchElementException;
 public class BinaryFunction extends AbstractToken{
 	private Token right;
 	private Token left;
-	public BinaryFunction(Token left,Token right,Type<BinaryFunction> type) {
-    super(type);
+	public BinaryFunction(Token left,Token right,String data) {
+    super(data);
 		this.setLeft(left);
 		this.setRight(right);
 	}
-	public BinaryFunction(Type<BinaryFunction> type) {
-    super(type);
+	public BinaryFunction(String data) {
+    super(data);
 	}
+  @Override
+  public int getPriority(){
+    return 6;
+  }
 	public double getValue() {
 		return 0;
 	}
@@ -55,7 +58,10 @@ public class BinaryFunction extends AbstractToken{
     }
 	@Override
 	public List<Node<Token>> getChildrens() {
-		return List.of(right,left);
+    if(right != null && left != null)
+		  return List.of(right,left);
+    else 
+      return null;
 	}
 	@Override
 	public void addChild(Node<Token> child) {

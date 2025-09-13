@@ -5,8 +5,7 @@ public class VariableY extends Variable {
   private static Variable me;
 
 	public VariableY() {
-	  super(TokenType.Y());
-
+    super("y");
 	}
 
   public static Variable getInstance() {
@@ -15,6 +14,10 @@ public class VariableY extends Variable {
 	  }
 	  return me;
 	}
+  @Override
+  public int getPriority() {
+    return 11;
+  }
 	    
 	public void setNum(double num) {
 	  super.setNum(num);

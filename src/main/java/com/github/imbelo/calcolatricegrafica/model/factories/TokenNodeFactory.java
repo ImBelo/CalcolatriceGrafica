@@ -6,27 +6,24 @@ import java.util.Optional;
 import com.github.imbelo.calcolatricegrafica.model.token.BinaryFunction;
 import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 import com.github.imbelo.calcolatricegrafica.model.token.AlphabetToken;
-import com.github.imbelo.calcolatricegrafica.model.interfaces.Type;
 import com.github.imbelo.calcolatricegrafica.model.token.UnaryFunction;
 
 public interface TokenNodeFactory {
 	
-	public static Optional<Token> createToken(Token left,Token right,Type<? extends Token> type) {
-		List<Type<BinaryFunction>> operations = AlphabetToken.getOperations();
+	public static Optional<Token> createToken(Token left,Token right,BinaryFunction type) {
+		List<BinaryFunction> operations = new AlphabetToken().getOperations();
 		if(!operations.contains(type) || right == null || left == null)
-			return Optional.empty();
-		BinaryFunction token = (BinaryFunction)type.create();
-		token.setLeft(left);
-		token.setRight(right);
-		return Optional.of(token); 
+			return Optional.empty(); 
+		type.setLeft(left);
+		type.setRight(right);
+		return Optional.of(type); 
 	}
-	public static Optional<Token> createToken(Token child,Type<? extends Token> type) {
-		List<Type<UnaryFunction>> functions = AlphabetToken.getFunctions();
+	public static Optional<Token> createToken(Token child,UnaryFunction type) {
+		List<UnaryFunction> functions = new AlphabetToken().getFunctions();
 		if(!functions.contains(type) || child == null)
 			return Optional.empty();
-		UnaryFunction token = (UnaryFunction)type.create();
-		token.setChild(child);
-		return Optional.of(token);
+		type.setChild(child);
+		return Optional.of(type);
 		
 	}
 

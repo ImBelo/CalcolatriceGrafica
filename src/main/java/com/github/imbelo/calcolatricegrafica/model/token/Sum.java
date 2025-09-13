@@ -5,12 +5,16 @@ import com.github.imbelo.calcolatricegrafica.model.interfaces.Token;
 
 public class Sum extends BinaryFunction{
 	public Sum(Token left, Token right) {
-    super(left,right,TokenType.SUM());
+    super(left,right,"+");
 	}
 
 	public Sum() {
-    super(TokenType.SUM());
+    super("+");
 	}
+  @Override
+  public int getPriority() {
+    return 1;
+  }
 
 	@Override
 	public double getValue() {

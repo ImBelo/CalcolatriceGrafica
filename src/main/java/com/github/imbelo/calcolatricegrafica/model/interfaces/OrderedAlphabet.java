@@ -3,7 +3,7 @@ package com.github.imbelo.calcolatricegrafica.model.interfaces;
 import java.util.Comparator;
 import java.util.List;
 
-public interface OrderedAlphabet<T extends Type<?>> extends Alphabet<T>{
+public interface OrderedAlphabet<T extends Ordered<T>> extends Alphabet<T>{
 
   default List<T> getSymbolsInPriorityOrder() {
     return getSymbolsOrderedBy(Comparator.comparingInt(T::getPriority));

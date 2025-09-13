@@ -2,9 +2,13 @@ package com.github.imbelo.calcolatricegrafica.model.token;
 
 public class ClosedParentheses extends AbstractParentheses{
 	public ClosedParentheses() {
-		super(TokenType.CLOSED_PARENTHESES());
+    super(")");
 	}
 	
+  @Override 
+  public int getPriority() {
+    return 14;
+  }
 	@Override 
 	public boolean equals(Object obj) {
 		if (obj == this)
